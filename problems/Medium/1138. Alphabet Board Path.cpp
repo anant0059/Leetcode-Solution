@@ -14,7 +14,7 @@ public:
         for(auto c:target){
             int cfirst = mp[c].first;
             int csecond = mp[c].second;
-            int l=0,r=0,d=0,u=0;
+            int l=0,r=0,d=0,u=0; 
             if(cfirst>first){
                 d=cfirst-first;
             }
