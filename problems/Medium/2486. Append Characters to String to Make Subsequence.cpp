@@ -15,7 +15,7 @@ public:
             if(flag==0) return n-i;
             ++i;
         }
-        cout<<"nf";
+        //cout<<"nf";
         return n-i;
     }
 };
