@@ -23,5 +23,6 @@ public:
             cout<<temp<<" ";
             if(temp==26) ans.push_back(i);
         }
-        return ans;    }
+        return ans;    
+    }
 };
