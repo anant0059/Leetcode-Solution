@@ -1,12 +1,12 @@
+
 class Solution {
 public:
-    int maxArea(vector<int>& height) {
-        int n=height.size(),i=0,j=n-1,mx=0;
-        while(i<j){
-            mx=max(mx,abs(min(height[i],height[j])*(j-i)));
-            if(height[i]<=height[j]) i++;
-            else j--;
-        }
-        return mx;
+    string intToRoman(int num) {
+        string ones[] = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
+        string tens[] = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+        string hrns[] = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
+        string ths[]={"","M","MM","MMM"};
+        
+        return ths[num/1000] + hrns[(num%1000)/100] + tens[(num%100)/10] + ones[num%10];
     }
 };
