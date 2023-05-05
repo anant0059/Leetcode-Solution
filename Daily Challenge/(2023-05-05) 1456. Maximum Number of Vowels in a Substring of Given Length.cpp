@@ -23,7 +23,7 @@ public:
             ++left;
             ++right;
             res = max(res, current_vowels);
-            // cout<<res<<endl;
+            // cout<<res<<endl; 
         }
         return res;
     }
