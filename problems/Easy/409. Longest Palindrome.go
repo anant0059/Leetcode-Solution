@@ -9,7 +9,8 @@ func longestPalindrome(s string) int {
         if count % 2 == 0 {
             res += count
         } else {
-            odd = max(odd, count)
+            odd = 1
+            res += count - 1
         }
     }
     res += odd
