@@ -1,58 +1,31 @@
-name: LeetCode Auto Push
+name: Auto-Push LeetCode Submissions
 
 on:
-  schedule:
-    - cron: "*/10 * * * *"  # Runs every 10 minutes
-  workflow_dispatch:  # Allows manual triggering
+  push:
+    branches:
+      - main
 
 jobs:
-  update_leetcode:
+  auto-push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Set Up Python
-        uses: actions/setup-python@v3
+        uses: actions/checkout@v4
         with:
-          python-version: "3.9"
+          persist-credentials: false  # Disable default credentials
 
-      - name: Install Dependencies
-        run: pip install requests
-
-      - name: Fetch Latest LeetCode Submission
-        run: |
-          python3 <<EOF
-          import os
-          import json
-          import requests
-
-          LEETCODE_SESSION = os.getenv("LEETCODE_SESSION")
-          LEETCODE_API = "https://leetcode.com/api/submissions/?offset=0&limit=1"
-
-          cookies = {"LEETCODE_SESSION": LEETCODE_SESSION}
-          response = requests.get(LEETCODE_API, cookies=cookies)
-          data = response.json()
-
-          if "submissions_dump" in data and data["submissions_dump"]:
-              latest_submission = data["submissions_dump"][0]
-              title = latest_submission["title"]
-              code = latest_submission["code"]
-              lang = latest_submission["lang"]
-
-              filename = f"{title.replace(' ', '_')}.{lang}"
-              with open(filename, "w") as f:
-                  f.write(code)
-
-              print(f"Saved {filename}")
-          EOF
-
-      - name: Push to GitHub
+      - name: Configure Git
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+
+      - name: Set Remote URL with GITHUB_TOKEN
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/anant0059/Leetcode-Solution.git
+
+      - name: Commit and Push Changes
+        run: |
           git add .
           git commit -m "Auto-update: LeetCode submission" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/anant0059/Leetcode-Solution.git main
-
+          git push origin main
